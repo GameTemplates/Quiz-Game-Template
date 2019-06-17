@@ -1,4 +1,4 @@
-# Quiz-Game-Templatate
+# Quiz-Game-Template
 basic quiz game template inspired by the TV program Be a Millionaire.
 
 Features:
