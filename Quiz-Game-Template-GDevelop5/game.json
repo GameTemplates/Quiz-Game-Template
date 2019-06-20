@@ -1199,7 +1199,7 @@
           "creationTime": 0,
           "disabled": false,
           "folded": false,
-          "name": "Initialize game",
+          "name": "Initialize the game",
           "source": "",
           "type": "BuiltinCommonInstructions::Group",
           "events": [
@@ -1219,25 +1219,7 @@
                   "subInstructions": []
                 }
               ],
-              "actions": [
-                {
-                  "type": {
-                    "inverted": false,
-                    "value": "QuizExtension::PickRandomQuestion"
-                  },
-                  "parameters": [
-                    "",
-                    "QuizTitleText",
-                    "QuizAnswerA",
-                    "QuizAnswerB",
-                    "QuizAnswerC",
-                    "QuizAnswerD",
-                    "AnswersBg",
-                    "AnswersBg"
-                  ],
-                  "subInstructions": []
-                }
-              ],
+              "actions": [],
               "events": [
                 {
                   "disabled": false,
@@ -1303,7 +1285,7 @@
           "creationTime": 0,
           "disabled": false,
           "folded": false,
-          "name": "Update game",
+          "name": "Update the game",
           "source": "",
           "type": "BuiltinCommonInstructions::Group",
           "events": [
@@ -1391,7 +1373,7 @@
                 {
                   "type": {
                     "inverted": false,
-                    "value": "Timer"
+                    "value": "QuizExtension::IsTimeToAnswer"
                   },
                   "parameters": [
                     "",
@@ -1489,7 +1471,7 @@
                 {
                   "type": {
                     "inverted": false,
-                    "value": "Timer"
+                    "value": "QuizExtension::IsTimeToQuestion"
                   },
                   "parameters": [
                     "",
@@ -1606,7 +1588,21 @@
                   "events": []
                 }
               ]
-            },
+            }
+          ],
+          "parameters": []
+        },
+        {
+          "colorB": 228,
+          "colorG": 176,
+          "colorR": 74,
+          "creationTime": 0,
+          "disabled": false,
+          "folded": false,
+          "name": "End the game",
+          "source": "",
+          "type": "BuiltinCommonInstructions::Group",
+          "events": [
             {
               "disabled": false,
               "folded": false,
@@ -1716,35 +1712,45 @@
                     ""
                   ],
                   "subInstructions": []
-                },
-                {
-                  "type": {
-                    "inverted": false,
-                    "value": "Timer"
-                  },
-                  "parameters": [
-                    "",
-                    "3",
-                    "\"gameover\""
-                  ],
-                  "subInstructions": []
                 }
               ],
-              "actions": [
+              "actions": [],
+              "events": [
                 {
-                  "type": {
-                    "inverted": false,
-                    "value": "QuizExtension::WinGuaranteedMoney"
-                  },
-                  "parameters": [
-                    "",
-                    "\"GameOver\"",
-                    ""
+                  "disabled": false,
+                  "folded": false,
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "inverted": false,
+                        "value": "Timer"
+                      },
+                      "parameters": [
+                        "",
+                        "3",
+                        "\"gameover\""
+                      ],
+                      "subInstructions": []
+                    }
                   ],
-                  "subInstructions": []
+                  "actions": [
+                    {
+                      "type": {
+                        "inverted": false,
+                        "value": "QuizExtension::WinGuaranteedMoney"
+                      },
+                      "parameters": [
+                        "",
+                        "\"GameOver\"",
+                        ""
+                      ],
+                      "subInstructions": []
+                    }
+                  ],
+                  "events": []
                 }
-              ],
-              "events": []
+              ]
             }
           ],
           "parameters": []
@@ -1956,7 +1962,7 @@
                 "textG": 0,
                 "textR": 0
               },
-              "comment": "set text to display the value the player won using the global variable",
+              "comment": "set text to display the value the player won using the expression",
               "comment2": ""
             },
             {
@@ -1973,7 +1979,7 @@
                   "parameters": [
                     "Title",
                     "=",
-                    "\"Well Done! You won:$\" + GlobalVariableString(quizextension_moneyWon)"
+                    "\"Well Done! You won:$\" + QuizExtension::GetMoneyWon()"
                   ],
                   "subInstructions": []
                 }
@@ -2130,7 +2136,7 @@
       "name": "QuizExtension",
       "shortDescription": "An extension to help with making quizes",
       "tags": "quiz",
-      "version": "1.0",
+      "version": "1.1",
       "eventsFunctions": [
         {
           "description": "Pick a random question",
@@ -2151,7 +2157,7 @@
                 "textG": 0,
                 "textR": 0
               },
-              "comment": "reset the color of the background image of the answers as we might change them previously to display he correct, wrong and selected answers.",
+              "comment": "reset the color of the background image of the answers as we might change them previously to display the correct, wrong and selected answers.",
               "comment2": ""
             },
             {
@@ -2168,41 +2174,6 @@
                   "parameters": [
                     "BackgrounGroup",
                     "\"255;255;255\""
-                  ],
-                  "subInstructions": []
-                }
-              ],
-              "events": []
-            },
-            {
-              "disabled": false,
-              "folded": false,
-              "type": "BuiltinCommonInstructions::Comment",
-              "color": {
-                "b": 109,
-                "g": 230,
-                "r": 255,
-                "textB": 0,
-                "textG": 0,
-                "textR": 0
-              },
-              "comment": "reset the color of the background as we changed it before when highlighted the result",
-              "comment2": ""
-            },
-            {
-              "disabled": false,
-              "folded": false,
-              "type": "BuiltinCommonInstructions::Standard",
-              "conditions": [],
-              "actions": [
-                {
-                  "type": {
-                    "inverted": false,
-                    "value": "SceneBackground"
-                  },
-                  "parameters": [
-                    "",
-                    "\"0;0;0\""
                   ],
                   "subInstructions": []
                 }
@@ -2424,7 +2395,7 @@
                 "textG": 0,
                 "textR": 0
               },
-              "comment": "if the question has been already picked, pick on other one and repeat while find one that has not been picked before to make sure the same question does picked twice during the game\nNote that, if no more question found, you create an infinite loop and the game will freeze here, make sure you don't pick a question more times than how many questions you have",
+              "comment": "if the question has been already picked, pick on other one and repeat while find one that has not been picked before to avoid the same question being picked twice during the game\nNOTE that, if no more question found, you create an infinite loop and the game will freeze here, make sure you don't pick a question more times than how many questions you have",
               "comment2": ""
             },
             {
@@ -3034,12 +3005,11 @@
                     {
                       "type": {
                         "inverted": false,
-                        "value": "ModVarSceneTxt"
+                        "value": "QuizExtension::UpdateCurrentMoney"
                       },
                       "parameters": [
-                        "quizextension_currentMoney",
-                        "=",
-                        "VariableString(quizextension_score[\"question\" + ToString(Variable(quizextension_questionCount))])"
+                        "",
+                        ""
                       ],
                       "subInstructions": []
                     }
@@ -3118,12 +3088,11 @@
                         {
                           "type": {
                             "inverted": false,
-                            "value": "ModVarSceneTxt"
+                            "value": "QuizExtension::UpdateGuaranteedMoney"
                           },
                           "parameters": [
                             "quizextension_guaranteedMoney",
-                            "=",
-                            "VariableString(quizextension_score[\"question\" + ToString(Variable(quizextension_questionCount))])"
+                            "="
                           ],
                           "subInstructions": []
                         }
@@ -3189,12 +3158,11 @@
                         {
                           "type": {
                             "inverted": false,
-                            "value": "ModVarSceneTxt"
+                            "value": "QuizExtension::UpdateGuaranteedMoney"
                           },
                           "parameters": [
                             "quizextension_guaranteedMoney",
-                            "=",
-                            "VariableString(quizextension_score[\"question\" + ToString(Variable(quizextension_questionCount))])"
+                            "="
                           ],
                           "subInstructions": []
                         }
@@ -3260,12 +3228,11 @@
                         {
                           "type": {
                             "inverted": false,
-                            "value": "ModVarSceneTxt"
+                            "value": "QuizExtension::UpdateGuaranteedMoney"
                           },
                           "parameters": [
                             "quizextension_guaranteedMoney",
-                            "=",
-                            "VariableString(quizextension_score[\"question\" + ToString(Variable(quizextension_questionCount))])"
+                            "="
                           ],
                           "subInstructions": []
                         }
@@ -3333,12 +3300,11 @@
                         {
                           "type": {
                             "inverted": false,
-                            "value": "ModVarSceneTxt"
+                            "value": "QuizExtension::UpdateGuaranteedMoney"
                           },
                           "parameters": [
                             "quizextension_guaranteedMoney",
-                            "=",
-                            "VariableString(quizextension_score[\"question\" + ToString(Variable(quizextension_questionCount))])"
+                            "="
                           ],
                           "subInstructions": []
                         }
@@ -6410,7 +6376,7 @@
                 "textG": 0,
                 "textR": 0
               },
-              "comment": "if the value of the variable delete2AnswerUsed is 0 that means it is still available to us and set value to 2 so we can not use this help while we are waiting for the result\nthe 2 means, we disable it only temporary we are going to reset back to 0 when we pick a new question",
+              "comment": "if the value of the variable delete2AnswerUsed is 0 that means it is still available to us and set value to 2 so we can not use this help while we are waiting for the result\nthe 2 means, we disable it only temporarily we are going to reset back to 0 when we pick a new question",
               "comment2": ""
             },
             {
@@ -7245,6 +7211,206 @@
                   },
                   "parameters": [
                     "True"
+                  ],
+                  "subInstructions": []
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [],
+          "objectGroups": []
+        },
+        {
+          "description": "Timer to display correct/incorrect answer",
+          "fullName": "Is time to answer",
+          "functionType": "Condition",
+          "name": "IsTimeToAnswer",
+          "sentence": "Is time to answer greater than _PARAM1_ seconds",
+          "events": [
+            {
+              "disabled": false,
+              "folded": false,
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "inverted": false,
+                    "value": "Timer"
+                  },
+                  "parameters": [
+                    "",
+                    "GetArgumentAsNumber(\"time\")",
+                    "\"quizextension_timeToAnswer\""
+                  ],
+                  "subInstructions": []
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "inverted": false,
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ],
+                  "subInstructions": []
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "codeOnly": false,
+              "defaultValue": "",
+              "description": "Number of seconds",
+              "name": "time",
+              "optional": false,
+              "supplementaryInformation": "",
+              "type": "expression"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Timer to pick a new question",
+          "fullName": "Is time to question",
+          "functionType": "Condition",
+          "name": "IsTimeToQuestion",
+          "sentence": "Is time to question greater than _PARAM1_ seconds",
+          "events": [
+            {
+              "disabled": false,
+              "folded": false,
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "inverted": false,
+                    "value": "Timer"
+                  },
+                  "parameters": [
+                    "",
+                    "GetArgumentAsNumber(\"time\")",
+                    "\"quizextension_timeToQuestion\""
+                  ],
+                  "subInstructions": []
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "inverted": false,
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ],
+                  "subInstructions": []
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [
+            {
+              "codeOnly": false,
+              "defaultValue": "",
+              "description": "Number of seconds",
+              "name": "time",
+              "optional": false,
+              "supplementaryInformation": "",
+              "type": "expression"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Get how much money the player won",
+          "fullName": "Get winner's money",
+          "functionType": "StringExpression",
+          "name": "GetMoneyWon",
+          "sentence": "Get amount of money the player won and display using the text object _PARAM1_",
+          "events": [
+            {
+              "disabled": false,
+              "folded": false,
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "inverted": false,
+                    "value": "SetReturnString"
+                  },
+                  "parameters": [
+                    "GlobalVariableString(quizextension_moneyWon)"
+                  ],
+                  "subInstructions": []
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [],
+          "objectGroups": []
+        },
+        {
+          "description": "Update the value of guaranteed money using question count value and the question score value set at initialization",
+          "fullName": "Update value of guaranteed money",
+          "functionType": "Action",
+          "name": "UpdateGuaranteedMoney",
+          "sentence": "Update value of guaranteed money ",
+          "events": [
+            {
+              "disabled": false,
+              "folded": false,
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "inverted": false,
+                    "value": "ModVarSceneTxt"
+                  },
+                  "parameters": [
+                    "quizextension_guaranteedMoney",
+                    "=",
+                    "VariableString(quizextension_score[\"question\" + ToString(Variable(quizextension_questionCount))])"
+                  ],
+                  "subInstructions": []
+                }
+              ],
+              "events": []
+            }
+          ],
+          "parameters": [],
+          "objectGroups": []
+        },
+        {
+          "description": "Update the value of current money using question count value and the question score value set at initialization",
+          "fullName": "Update value of current money",
+          "functionType": "Action",
+          "name": "UpdateCurrentMoney",
+          "sentence": "Update value of current money",
+          "events": [
+            {
+              "disabled": false,
+              "folded": false,
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "inverted": false,
+                    "value": "ModVarSceneTxt"
+                  },
+                  "parameters": [
+                    "quizextension_currentMoney",
+                    "=",
+                    "VariableString(quizextension_score[\"question\" + ToString(Variable(quizextension_questionCount))])"
                   ],
                   "subInstructions": []
                 }
